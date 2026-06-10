@@ -1,0 +1,844 @@
+  /* ============================================
+       VARIÁVEIS DO DESIGN SYSTEM
+    ============================================ */
+    :root {
+      /* Paleta */
+      --color-bg:          #1A1714;
+      --color-bg-alt:      #121212;
+      --color-surface:     #2A241F;
+      --color-surface-2:   #332C26;
+      --color-accent:      #C98A3E;
+      --color-accent-dim:  #9E5E2F;
+      --color-text:        #E6E3DD;
+      --color-text-muted:  #A19B94;
+      --color-border:      #3A332C;
+      --color-border-soft: #2E2823;
+      --color-border-ctrl: #4A4238;
+      --color-danger:      #D0684A;
+      --color-danger-hover:#E07858;
+
+      /* Espaçamento (múltiplos de 4) */
+      --space-0-5: 4px;
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-5: 40px;
+      --space-6: 48px;
+
+      /* Tipografia */
+      --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+
+      /* Bordas */
+      --radius: 2px;
+      --radius-sm: 1px;
+      --radius-md: 4px;
+      --border-thin: 1px solid var(--color-border);
+      --border-soft: 1px solid var(--color-border-soft);
+
+      /* Transições */
+      --transition: 0.2s ease;
+    }
+
+    /* ============================================
+       RESET
+    ============================================ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    input {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      background: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* Utility — acessibilidade */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ============================================
+       FOCUS VISIBLE — Acessibilidade
+    ============================================ */
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
+    .task-checkbox input:focus-visible {
+      outline: none;
+    }
+
+    .task-checkbox input:focus-visible ~ .checkmark {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 1px;
+    }
+
+    /* ============================================
+       BASE — FUNDO COM TEXTURA RÚSTICA
+    ============================================ */
+    body {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      /* Textura sutil: granulado escuro + vinheta */
+      background-image:
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
+        repeating-linear-gradient(
+          45deg,
+          rgba(201, 138, 62, 0.012) 0px,
+          rgba(201, 138, 62, 0.012) 1px,
+          transparent 1px,
+          transparent 3px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(0, 0, 0, 0.08) 0px,
+          rgba(0, 0, 0, 0.08) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: var(--space-1);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       CONTAINER PRINCIPAL
+    ============================================ */
+    .todo-app {
+      width: 95%;
+      max-width: 100%;
+      background-color: var(--color-bg-alt);
+      background-image:
+        linear-gradient(180deg, rgba(42, 36, 31, 0.4) 0%, rgba(18, 18, 18, 0) 40%),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 31px,
+          rgba(201, 138, 62, 0.04) 31px,
+          rgba(201, 138, 62, 0.04) 32px
+        );
+      border: var(--border-thin);
+      border-radius: var(--radius);
+      padding: var(--space-3) var(--space-2);
+      position: relative;
+      box-shadow:
+        0 1px 0 rgba(201, 138, 62, 0.05) inset,
+        0 0 0 1px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Cantos decorativos tipo "ferragem" */
+    .todo-app::before,
+    .todo-app::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--color-accent-dim);
+      opacity: 0.6;
+    }
+    .todo-app::before {
+      top: 8px;
+      left: 8px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .todo-app::after {
+      bottom: 8px;
+      right: 8px;
+      border-left: none;
+      border-top: none;
+    }
+
+    /* ============================================
+       CABEÇALHO
+    ============================================ */
+    .todo-header {
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--space-3);
+      margin-bottom: var(--space-4);
+      position: relative;
+    }
+
+    .todo-title {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text);
+      line-height: 1;
+      text-transform: lowercase;
+    }
+
+    .todo-title .accent {
+      color: var(--color-accent);
+      font-style: italic;
+    }
+
+    .todo-subtitle {
+      margin-top: var(--space-1);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .todo-subtitle::before {
+      content: "№ ";
+      color: var(--color-accent-dim);
+    }
+
+    /* ============================================
+       FORMULÁRIO
+    ============================================ */
+    .todo-form {
+      display: flex;
+      gap: var(--space-1);
+      margin-bottom: var(--space-3);
+    }
+
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    #new-task {
+      width: 100%;
+      background-color: var(--color-surface);
+      border: var(--border-thin);
+      border-radius: var(--radius);
+      padding: var(--space-2) var(--space-2);
+      padding-left: var(--space-4);
+      color: var(--color-text);
+      font-size: 14px;
+      font-family: var(--font-mono);
+      transition: border-color var(--transition);
+    }
+
+    #new-task::placeholder {
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    #new-task:focus {
+      border-color: var(--color-accent-dim);
+    }
+
+    .input-wrapper::before {
+      content: "›";
+      position: absolute;
+      left: var(--space-2);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-accent);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .add-btn {
+      background-color: transparent;
+      border: var(--border-thin);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      padding: 0 var(--space-3);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: all var(--transition);
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .add-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .add-btn::before {
+      content: "+ ";
+      color: var(--color-accent-dim);
+    }
+
+    /* ============================================
+       FILTROS
+    ============================================ */
+    .filters {
+      display: flex;
+      gap: var(--space-1);
+      margin-bottom: var(--space-3);
+      padding-bottom: var(--space-2);
+      border-bottom: var(--border-soft);
+    }
+
+    .filter-btn {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: var(--space-1) var(--space-2);
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .filter-btn:hover {
+      color: var(--color-text);
+      border-color: var(--color-border-soft);
+    }
+
+    .filter-btn.active {
+      color: var(--color-accent);
+      border-color: var(--color-accent-dim);
+      background-color: rgba(201, 138, 62, 0.04);
+    }
+
+    .filter-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 1px;
+      background-color: var(--color-accent);
+    }
+
+    /* ============================================
+       LISTA DE TAREFAS
+    ============================================ */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: var(--space-4);
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2);
+      border-bottom: var(--border-soft);
+      transition: background-color var(--transition);
+      position: relative;
+    }
+
+    .task-item:hover {
+      background-color: rgba(42, 36, 31, 0.4);
+    }
+
+    /* Drag and Drop */
+    .task-item {
+      cursor: grab;
+    }
+
+    .task-item:active {
+      cursor: grabbing;
+    }
+
+    .task-item.dragging {
+      opacity: 0.35;
+      background-color: rgba(201, 138, 62, 0.06);
+    }
+
+    .task-item.drag-over {
+      border-top: 2px solid var(--color-accent);
+    }
+
+    .task-item:last-child {
+      border-bottom: var(--border-thin);
+    }
+
+    /* Numeração lateral tipo caderno */
+    .task-item::before {
+      content: "0" counter(task-counter);
+      counter-increment: task-counter;
+      font-size: 10px;
+      color: var(--color-text-muted);
+      opacity: 0.5;
+      letter-spacing: 0.1em;
+      min-width: var(--space-3);
+    }
+
+    .task-list {
+      counter-reset: task-counter;
+    }
+
+    /* ============================================
+       CHECKBOX RÚSTICO
+    ============================================ */
+    .task-checkbox {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .task-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .checkmark {
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .checkmark::after {
+      content: "✕";
+      font-size: 11px;
+      color: var(--color-accent);
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all var(--transition);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      margin-top: -1px;
+    }
+
+    .task-checkbox input:checked ~ .checkmark {
+      border-color: var(--color-accent-dim);
+      background-color: rgba(201, 138, 62, 0.08);
+    }
+
+    .task-checkbox input:checked ~ .checkmark::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .task-checkbox:hover .checkmark {
+      border-color: var(--color-accent-dim);
+    }
+
+    /* ============================================
+       TEXTO DA TAREFA
+    ============================================ */
+    .task-text {
+      flex: 1;
+      font-size: 14px;
+      color: var(--color-text);
+      word-break: break-word;
+      transition: all var(--transition);
+    }
+
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+      text-decoration-color: var(--color-accent-dim);
+      text-decoration-thickness: 1px;
+      opacity: 0.6;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .form-error {
+      color: var(--color-danger);
+      font-size: 11px;
+      margin-top: var(--space-1);
+    }
+
+    /* ============================================
+       EMPTY STATE
+    ============================================ */
+    #emptyState {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-5) var(--space-3);
+      text-align: center;
+      color: var(--color-text-muted);
+      font-style: italic;
+      opacity: 0.6;
+    }
+
+    #emptyState::before {
+      content: "☐";
+      font-size: 2rem;
+      color: var(--color-accent-dim);
+      margin-bottom: var(--space-2);
+      opacity: 0.4;
+    }
+
+    /* ============================================
+       INPUT DE EDIÇÃO INLINE
+    ============================================ */
+    .task-item .todo-input {
+      flex: 1;
+      background: var(--color-surface);
+      border: 1px solid var(--color-accent-dim);
+      border-radius: var(--radius);
+      padding: var(--space-1) var(--space-2);
+      color: var(--color-text);
+      font-size: inherit;
+      font-family: inherit;
+    }
+
+    .task-item .todo-input:focus {
+      border-color: var(--color-accent);
+      outline: none;
+    }
+
+    /* ============================================
+       AÇÕES (EDITAR / EXCLUIR)
+    ============================================ */
+    .task-actions {
+      display: flex;
+      gap: var(--space-0-5);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .task-item:hover .task-actions {
+      opacity: 1;
+    }
+
+    .action-btn {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      transition: all var(--transition);
+    }
+
+    .action-btn:hover {
+      color: var(--color-accent);
+      border-color: var(--color-border-soft);
+    }
+
+    .action-btn.delete:hover {
+      color: var(--color-danger-hover);
+      border-color: var(--color-danger-hover);
+    }
+
+    /* ============================================
+       RODAPÉ
+    ============================================ */
+    .todo-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--space-2);
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .task-count {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .task-count strong {
+      color: var(--color-accent);
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .clear-completed {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: var(--space-1) var(--space-2);
+      border: var(--border-soft);
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+
+    .clear-completed:hover {
+      color: var(--color-danger-hover);
+      border-color: var(--color-danger-hover);
+    }
+
+    .clear-completed::before {
+      content: "✕ ";
+      font-size: 9px;
+      opacity: 0.7;
+    }
+
+    .clear-completed:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ============================================
+       SEPARADOR DECORATIVO
+    ============================================ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      margin: var(--space-2) 0;
+      color: var(--color-text-muted);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      opacity: 0.4;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: var(--color-border-soft);
+    }
+
+    /* ============================================
+       TOAST DE FEEDBACK
+    ============================================ */
+    .toast {
+      position: fixed;
+      bottom: var(--space-3);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-surface);
+      border: var(--border-thin);
+      border-radius: var(--radius);
+      padding: var(--space-2) var(--space-3);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--color-text);
+      z-index: 100;
+      animation: toastIn 0.3s ease;
+      pointer-events: none;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* ============================================
+       RESPONSIVIDADE — Mobile-first
+    ============================================ */
+
+    /* Mobile: form em coluna */
+    .todo-form {
+      flex-direction: column;
+    }
+
+    .add-btn {
+      padding: var(--space-2);
+    }
+
+    .todo-title {
+      font-size: 26px;
+    }
+
+    .todo-subtitle {
+      font-size: 10px;
+    }
+
+    .filters {
+      flex-wrap: wrap;
+      gap: var(--space-0-5);
+    }
+
+    .filter-btn {
+      padding: 6px var(--space-1);
+      font-size: 10px;
+    }
+
+    .task-actions {
+      opacity: 1;
+    }
+
+    .task-item::before {
+      display: none;
+    }
+
+    .todo-footer {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: var(--space-2);
+    }
+
+    .clear-completed {
+      width: 100%;
+    }
+
+    /* Tablet: 380px+ */
+    @media (min-width: 380px) {
+      .todo-title {
+        font-size: 32px;
+      }
+
+      .todo-subtitle {
+        font-size: 11px;
+      }
+    }
+
+    /* Desktop: 640px+ */
+    @media (min-width: 640px) {
+      body {
+        align-items: center;
+        padding: var(--space-3);
+      }
+
+      .todo-app {
+        width: 100%;
+        max-width: 640px;
+        padding: var(--space-5) var(--space-4);
+      }
+
+      .todo-title {
+        font-size: 40px;
+      }
+
+      .todo-form {
+        flex-direction: row;
+      }
+
+      .add-btn {
+        padding: 0 var(--space-3);
+      }
+
+      .filters {
+        flex-wrap: nowrap;
+      }
+
+      .filter-btn {
+        padding: var(--space-1) var(--space-2);
+        font-size: 11px;
+      }
+
+      .task-actions {
+        opacity: 0;
+      }
+
+      .task-item::before {
+        display: block;
+      }
+
+      .todo-footer {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: var(--space-2);
+      }
+
+      .clear-completed {
+        width: auto;
+      }
+    }
+
+    /* Acessibilidade — reduzir movimento */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Acessibilidade — alto contraste */
+    @media (prefers-contrast: more) {
+      :root {
+        --color-border:       #5A5248;
+        --color-border-soft:  #4A4238;
+        --color-text-muted:   #C5C0B9;
+        --color-accent-dim:   #D8984E;
+        --color-danger:       #E07050;
+      }
+
+      .task-item {
+        border-bottom-color: var(--color-border);
+      }
+
+      #new-task {
+        border-color: var(--color-border);
+      }
+    }
+
+    /* Selection */
+    ::selection {
+      background: rgba(201, 138, 62, 0.3);
+      color: var(--color-text);
+    }
+
+    /* Scrollbar (WebKit) */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--color-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-accent-dim);
+    }

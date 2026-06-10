@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lista de tarefas rústica — caderno de execução diária com persistência local">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#1A1714">
+  <title>tarefas — lista rústica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="todo-app" id="todoApp">
+
+    <!-- CABEÇALHO -->
+    <header class="todo-header">
+      <h1 class="todo-title">tarefas<span class="accent">.</span></h1>
+      <p class="todo-subtitle">caderno de execução diária</p>
+    </header>
+
+    <!-- FORMULÁRIO -->
+    <form class="todo-form" id="todoForm" autocomplete="off">
+      <div class="input-wrapper">
+        <label for="new-task" class="sr-only">Nova tarefa</label>
+        <input
+          type="text"
+          id="new-task"
+          class="todo-input"
+          placeholder="descreva a próxima tarefa..."
+          maxlength="140"
+          aria-label="descreva a próxima tarefa"
+        >
+      </div>
+      <button type="submit" class="add-btn" id="addBtn">adicionar</button>
+      <span class="form-error" id="formError"></span>
+    </form>
+
+    <!-- FILTROS -->
+    <nav class="filters" aria-label="Filtros de tarefas">
+      <button type="button" class="filter-btn active" data-filter="all">Todas</button>
+      <button type="button" class="filter-btn" data-filter="active">Ativas</button>
+      <button type="button" class="filter-btn" data-filter="completed">Concluídas</button>
+    </nav>
+
+    <!-- LISTA -->
+    <ul class="task-list" id="taskList" aria-live="polite">
+    </ul>
+
+    <!-- RODAPÉ -->
+    <footer class="todo-footer" aria-live="polite">
+      <output class="task-count" id="totalTask" aria-label="Total de tarefas"></output>
+      <output class="task-count" id="activeTask" aria-label="Tarefas pendentes"></output>
+      <output class="task-count" id="completedTask" aria-label="Tarefas concluídas"></output>
+      <button type="button" class="clear-completed" id="clearCompleted">limpar concluídas</button>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
